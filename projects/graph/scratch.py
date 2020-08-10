@@ -1,3 +1,24 @@
+# my_list = ['1','2','3']
+
+# last = my_list[len(my_list) - 1]
+# print(last)
+
+# print(my_list.copy())
+
+# neighbors = {'2', '3'}
+
+
+# combined_list = []
+# for i in range(len(neighbors)):
+#     list_neighbors = list(neighbors)
+
+#     combined_list.append(my_list.copy())
+#     combined_list[i].append(list_neighbors[i])
+
+# print(combined_list)
+
+
+
 """
 Simple graph implementation
 """
@@ -20,7 +41,10 @@ class Graph:
         """
         Add a directed edge to the graph.
         """
-        self.vertices[v1].add(v2)       #self.vertices = dictionary
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            IndexError('vertex does not exist')       #self.vertices = dictionary
                                         #self.vertices[v1] = set() {v1: {v2}, v2: {}}
 
     def get_neighbors(self, vertex_id):
@@ -44,12 +68,14 @@ class Graph:
         #loop as long as queue is not empty
         while q.size() > 0:
             #dequeu from queue:
-            v = q.dequeue
+            v = q.dequeue()
+            print('v', v)
             
             #if dequeued item not in visited:
             if v not in visited:
                 #add it to visited
                 visited.add(v)
+                print('visited',visited)
                 print(v)
                 #add it's neighbors to queue
                 neighbors = self.get_neighbors(v)
@@ -95,17 +121,19 @@ class Graph:
         breath-first order.
         """
         #create an empty queue and enqueue the path to the starting vertex
-        q = Queue()
+        q = Queue() #empty q
 
-        q.enqueue([starting_vertex])
+        q.enqueue([starting_vertex]) #[['1']]
         #create set to store visited
-        visited = set()
+        visited = set() #{}
         #while queue is not empty:
         while q.size() > 0:
             #dequeue the first path
-            removed_path = q.dequeue()
-            #grab last vertex from the path
-            last_vert = removed_path[len(removed_path) - 1]
+            removed_path = q.dequeue() #['1']
+            #grab last vertex value from the path
+            last_vert_value = removed_path[len(removed_path) - 1] #'1'
+            #vertex that was pulled out
+            last_vert = self.vertices[last_vert_value] #{} empty set
 
             #if the vertex has not been visited:
             if last_vert not in visited:
@@ -114,10 +142,10 @@ class Graph:
                     #return the path
                     return removed_path
                 #mark it as visited
-                visited.add(last_vert)
+                visited.add(last_vert_value) ###
 
                 #then add a path to its neighbors to the back of the queue
-                neighbors = last_vert.get_neighbors() #returns set of neighbors
+                neighbors = self.get_neighbors(last_vert_value) #returns set of neighbors
 
                 #create a list to store the path to all neighbors of current vertex
                 neighbor_paths = []
@@ -162,70 +190,37 @@ class Graph:
         """
         pass  # TODO
 
-if __name__ == '__main__':
-    graph = Graph()  # Instantiate your graph
-    # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
-    graph.add_vertex(1)
-    graph.add_vertex(2)
-    graph.add_vertex(3)
-    graph.add_vertex(4)
-    graph.add_vertex(5)
-    graph.add_vertex(6)
-    graph.add_vertex(7)
-    graph.add_edge(5, 3)
-    graph.add_edge(6, 3)
-    graph.add_edge(7, 1)
-    graph.add_edge(4, 7)
-    graph.add_edge(1, 2)
-    graph.add_edge(7, 6)
-    graph.add_edge(2, 4)
-    graph.add_edge(3, 5)
-    graph.add_edge(2, 3)
-    graph.add_edge(4, 6)
 
-    '''
-    Should print:
-        {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
-    '''
-    print(graph.vertices)
+my_graph = Graph()
 
-    '''
-    Valid BFT paths:
-        1, 2, 3, 4, 5, 6, 7
-        1, 2, 3, 4, 5, 7, 6
-        1, 2, 3, 4, 6, 7, 5
-        1, 2, 3, 4, 6, 5, 7
-        1, 2, 3, 4, 7, 6, 5
-        1, 2, 3, 4, 7, 5, 6
-        1, 2, 4, 3, 5, 6, 7
-        1, 2, 4, 3, 5, 7, 6
-        1, 2, 4, 3, 6, 7, 5
-        1, 2, 4, 3, 6, 5, 7
-        1, 2, 4, 3, 7, 6, 5
-        1, 2, 4, 3, 7, 5, 6
-    '''
-    graph.bft(1)
+my_graph.add_vertex('1')
+my_graph.add_vertex('2')
+my_graph.add_vertex('3')
+my_graph.add_vertex('4')
+my_graph.add_vertex('4')
 
-    '''
-    Valid DFT paths:
-        1, 2, 3, 5, 4, 6, 7
-        1, 2, 3, 5, 4, 7, 6
-        1, 2, 4, 7, 6, 3, 5
-        1, 2, 4, 6, 3, 5, 7
-    '''
-    graph.dft(1)
-    graph.dft_recursive(1)
 
-    '''
-    Valid BFS path:
-        [1, 2, 4, 6]
-    '''
-    print(graph.bfs(1, 6))
 
-    '''
-    Valid DFS paths:
-        [1, 2, 4, 6]
-        [1, 2, 4, 7, 6]
-    '''
-    print(graph.dfs(1, 6))
-    print(graph.dfs_recursive(1, 6))
+print(my_graph.vertices)
+
+my_graph.add_edge(1, 2)
+my_graph.add_edge(1, 3)
+
+my_graph.add_edge(2, 1)
+my_graph.add_edge(3, 7)
+
+my_graph.add_edge(2, 5)
+my_graph.add_edge(3, 4)
+
+my_graph.add_edge(5, 2)
+my_graph.add_edge(4, 3)
+
+my_graph.add_edge(5, 4)
+my_graph.add_edge(4, 5)
+
+print(my_graph.bft('1'))
+
+# print(my_graph.bfs('1', '4'))
+
+
+    
