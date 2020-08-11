@@ -131,9 +131,7 @@ class Graph:
             #dequeue the first path
             removed_path = q.dequeue() #['1']
             #grab last vertex value from the path
-            last_vert_value = removed_path[len(removed_path) - 1] #'1'
-            #vertex that was pulled out
-            last_vert = self.vertices[last_vert_value] #{} empty set
+            last_vert = removed_path[len(removed_path) - 1] #'1'
 
             #if the vertex has not been visited:
             if last_vert not in visited:
@@ -142,20 +140,21 @@ class Graph:
                     #return the path
                     return removed_path
                 #mark it as visited
-                visited.add(last_vert_value) ###
+                visited.add(last_vert) ### visited = {'1'}
 
                 #then add a path to its neighbors to the back of the queue
-                neighbors = self.get_neighbors(last_vert_value) #returns set of neighbors
+                neighbors = self.get_neighbors(last_vert) #returns set of neighbors = {'2','3'}
+                print(neighbors)
 
                 #create a list to store the path to all neighbors of current vertex
                 neighbor_paths = []
                 #loop through and make a list with path to all neighbors
                 for i in range(len(neighbors)):
-                    neighbor_list = list(neighbors)
+                    neighbor_list = list(neighbors) #['2', '3']
 
-                    neighbor_paths.append(removed_path.copy())
-                    neighbor_list[i].append(neighbor_list[i])
-                    print(neighbor_paths)
+                    neighbor_paths.append(removed_path.copy()) #[['1', '2'], ['1', '3']]
+                    neighbor_paths[i].append(neighbor_list[i]) 
+                    print('neighbor paths', neighbor_paths)
 
                 for path in neighbor_paths:
                     q.enqueue(path)
@@ -203,24 +202,26 @@ my_graph.add_vertex('4')
 
 print(my_graph.vertices)
 
-my_graph.add_edge(1, 2)
-my_graph.add_edge(1, 3)
+my_graph.add_edge('1', '2')
+my_graph.add_edge('1', '3')
 
-my_graph.add_edge(2, 1)
-my_graph.add_edge(3, 7)
+my_graph.add_edge('2', '1')
+my_graph.add_edge('3', '7')
 
-my_graph.add_edge(2, 5)
-my_graph.add_edge(3, 4)
+my_graph.add_edge('2', '5')
+my_graph.add_edge('3', '4')
 
-my_graph.add_edge(5, 2)
-my_graph.add_edge(4, 3)
+my_graph.add_edge('5', '2')
+my_graph.add_edge('4', '3')
 
-my_graph.add_edge(5, 4)
-my_graph.add_edge(4, 5)
+my_graph.add_edge('5', '4')
+my_graph.add_edge('4', '5')
 
-print(my_graph.bft('1'))
+# print(my_graph.get_neighbors('1'))
 
-# print(my_graph.bfs('1', '4'))
+# print(my_graph.bft('1'))
+
+print(my_graph.bfs('1', '4'))
 
 
     

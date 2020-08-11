@@ -44,7 +44,7 @@ class Graph:
         #loop as long as queue is not empty
         while q.size() > 0:
             #dequeu from queue:
-            v = q.dequeue
+            v = q.dequeue()
             
             #if dequeued item not in visited:
             if v not in visited:
@@ -86,6 +86,11 @@ class Graph:
 
         This should be done using recursion.
         """
+
+        #3 rules of recursion: 
+            #1. function must call itself
+            #2. must have base case
+            #3. must move twoards base case
         pass  # TODO
 
     def bfs(self, starting_vertex, destination_vertex):
@@ -95,17 +100,17 @@ class Graph:
         breath-first order.
         """
         #create an empty queue and enqueue the path to the starting vertex
-        q = Queue()
+        q = Queue() #empty q
 
-        q.enqueue([starting_vertex])
+        q.enqueue([starting_vertex]) #[['1']]
         #create set to store visited
-        visited = set()
+        visited = set() #{}
         #while queue is not empty:
         while q.size() > 0:
             #dequeue the first path
-            removed_path = q.dequeue()
-            #grab last vertex from the path
-            last_vert = removed_path[len(removed_path) - 1]
+            removed_path = q.dequeue() #['1']
+            #grab last vertex value from the path
+            last_vert = removed_path[len(removed_path) - 1] #'1'
 
             #if the vertex has not been visited:
             if last_vert not in visited:
@@ -114,20 +119,21 @@ class Graph:
                     #return the path
                     return removed_path
                 #mark it as visited
-                visited.add(last_vert)
+                visited.add(last_vert) ### visited = {'1'}
 
                 #then add a path to its neighbors to the back of the queue
-                neighbors = last_vert.get_neighbors() #returns set of neighbors
+                neighbors = self.get_neighbors(last_vert) #returns set of neighbors = {'2','3'}
+                print(neighbors)
 
                 #create a list to store the path to all neighbors of current vertex
                 neighbor_paths = []
                 #loop through and make a list with path to all neighbors
                 for i in range(len(neighbors)):
-                    neighbor_list = list(neighbors)
+                    neighbor_list = list(neighbors) #['2', '3']
 
-                    neighbor_paths.append(removed_path.copy())
-                    neighbor_list[i].append(neighbor_list[i])
-                    print(neighbor_paths)
+                    neighbor_paths.append(removed_path.copy()) #[['1'], ['1']]
+                    neighbor_paths[i].append(neighbor_list[i]) 
+                    print('neighbor paths', neighbor_paths)
 
                 for path in neighbor_paths:
                     q.enqueue(path)
@@ -150,7 +156,54 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        #create an empty stack
+        stack = Stack()
+        #create a set for visited vertices
+        visited = set()
+        #add starting vertex path to stack [['1']]
+        stack.push([starting_vertex])
+
+        #while stack is not empty:
+        while stack.size() > 0:
+            #pop off stack: stack = []
+            current_path = stack.pop() # --> ['1'] 
+            #store the last item from the popped off stack list: last = '1'
+            current_paths_last_vertex = current_path[len(current_path) - 1]
+            #if last == destination_vertex:
+            if current_paths_last_vertex not in visited: 
+                if current_paths_last_vertex == destination_vertex:
+                #return popped_off list
+                    return current_path
+            #add last to visited: visited = {'1'}
+                visited.add(current_paths_last_vertex)
+                #add path to all of last's ('1') neighbors to queue:  [['1', '2'], ['1', '3']]
+                neighbors = self.get_neighbors(current_paths_last_vertex) # --> {'2', '3'}
+                #initialize list that can store both neighbor path lists
+                neighbor_paths = []
+
+                #loop through neighbors and add them each to list with 1 ---> [['1', '2'], ['1', '3']]
+                for i in range(len(neighbors)):
+                    neighbor_list = list(neighbors)
+
+                    neighbor_paths.append(current_path.copy()) #[['1'], ['1']]
+                    neighbor_paths[i].append(neighbor_list[i]) #[['1', '2'], ['1', '3']]
+                    print('neighbor paths', neighbor_paths)
+                
+                for path in neighbor_paths:
+                    stack.push(path)
+
+        return None
+                
+
+
+
+
+
+
+
+
+
+
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
