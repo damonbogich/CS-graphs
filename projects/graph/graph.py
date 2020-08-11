@@ -79,7 +79,7 @@ class Graph:
                     s.push(neighbor)
 
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited = set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -91,7 +91,18 @@ class Graph:
             #1. function must call itself
             #2. must have base case
             #3. must move twoards base case
-        pass  # TODO
+        
+        #set for visited vertices
+        
+        print(starting_vertex)
+        #add starting vertex to set
+        visited.add(starting_vertex)
+
+        for neighbor in self.get_neighbors(starting_vertex):
+            if neighbor not in visited:
+                self.dft_recursive(neighbor)
+
+
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -205,15 +216,35 @@ class Graph:
 
 
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, path = [], visited = set()):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
-
         This should be done using recursion.
         """
-        pass  # TODO
+
+        # create a new path that includes the current vertex
+        path = path + [starting_vertex]
+
+        # if you have reached the destination return the current path
+        if starting_vertex == destination_vertex:
+            return path
+       
+        # loop through each neighbor of the current vertex
+        for neighbor in self.get_neighbors(starting_vertex):
+            # if you haven't visited the neighbor
+            if neighbor not in visited:
+                # vadd the neighbor to visited
+                visited.add(neighbor)
+                # recursively call the function to get a path from the neighbor to the end
+                neighborpath = self.dfs_recursive(neighbor, destination_vertex, path.copy())
+                # if the call of this function on the current neighbor found a path to the end
+                if neighborpath is not None:
+                    # return that path
+                    return neighborpath
+        # if no path to the end was found in any recursive calls we return None
+        return None
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
