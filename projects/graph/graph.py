@@ -79,7 +79,7 @@ class Graph:
                     s.push(neighbor)
 
 
-    def dft_recursive(self, starting_vertex, visited = set()):
+    def dft_recursive(self, starting_vertex, visited = None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -93,14 +93,16 @@ class Graph:
             #3. must move twoards base case
         
         #set for visited vertices
+        if visited == None:
+            visited = set()
         
         print(starting_vertex)
         #add starting vertex to set
         visited.add(starting_vertex)
 
-        for neighbor in self.get_neighbors(starting_vertex):
+        for neighbor in self.get_neighbors(starting_vertex): #{2,3} {1,3}
             if neighbor not in visited:
-                self.dft_recursive(neighbor)
+                self.dft_recursive(neighbor, visited)
 
 
 

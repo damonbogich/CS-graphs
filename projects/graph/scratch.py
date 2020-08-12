@@ -206,7 +206,7 @@ my_graph.add_edge('1', '2')
 my_graph.add_edge('1', '3')
 
 my_graph.add_edge('2', '1')
-my_graph.add_edge('3', '7')
+my_graph.add_edge('3', '1')
 
 my_graph.add_edge('2', '5')
 my_graph.add_edge('3', '4')
@@ -214,8 +214,8 @@ my_graph.add_edge('3', '4')
 my_graph.add_edge('5', '2')
 my_graph.add_edge('4', '3')
 
-my_graph.add_edge('5', '4')
-my_graph.add_edge('4', '5')
+# my_graph.add_edge('5', '4')
+# my_graph.add_edge('4', '5')
 
 # print(my_graph.get_neighbors('1'))
 
