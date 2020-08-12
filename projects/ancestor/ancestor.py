@@ -34,12 +34,24 @@ def earliest_ancestor(ancestors, starting_vertex):
             current_path = stack.pop() 
             
             current_paths_last_vertex = current_path[len(current_path) - 1] #6
+
+            # this array was not necessary for this project, but it ensures
+            # that parent with smallest value is returned, not just the last
+            # parent in a path to be popped off of stacks
+            current_paths_last_vertex_neighbors = []
             if current_paths_last_vertex not in visited:
                 parents = get_parents(ancestors, current_paths_last_vertex) # [3,5]
+
+                current_paths_last_vertex_neighbors.append(current_paths_last_vertex)
                 if parents == [] and len(current_path) == 1: 
                     return -1 
-                if parents == [] and stack.size() == 0:                               
-                    return current_paths_last_vertex
+                if parents == [] and stack.size() == 0:
+                                                   
+                    return min(current_paths_last_vertex_neighbors)
+                
+                    
+
+
                 visited.add(current_paths_last_vertex)
                 
                 neighbor_paths = []
