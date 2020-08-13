@@ -52,7 +52,7 @@ You would call it 500 times, because 100 * 10 = 1000.  You create half that many
 
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
 
-
+99% of other users will be in a particular user's extended social network.  Average degree of seperation is 5.
 
 
 
