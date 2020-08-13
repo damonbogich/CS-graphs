@@ -77,7 +77,7 @@ class SocialGraph:
     def get_friends(self, user_id, connections):
         return connections[user_id]
 
-    #BFS to find shortest path from every user to every other user
+    #BFT to find shortest path from every user to every other user
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
@@ -115,9 +115,6 @@ class SocialGraph:
                     q.enqueue(path)
 
 
-
-
-
         return visited
 
 
@@ -135,4 +132,5 @@ if __name__ == '__main__':
 
     # print('sg.friendships', sg.friendships)
 
+    #test at scale:
 
