@@ -74,6 +74,9 @@ class SocialGraph:
             self.add_friendship(user_id, friend_id) #adds friendships to graph, now we have a graph
             # we are creating 12 unique friendships, but they are two way friendships, so really it's 24 friendships
 
+    def get_friends(self, user_id, connections):
+        return connections[user_id]
+
     #BFS to find shortest path from every user to every other user
     def get_all_social_paths(self, user_id):
         """
@@ -86,19 +89,48 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        q = Queue() #empty q
+
+        q.enqueue([user_id])
+
+        while q.size() > 0:
+            current_path = q.dequeue()
+            last_vert = current_path[len(current_path) - 1]
+
+            if last_vert not in visited:
+                visited[last_vert] = current_path
+
+                friends = self.get_friends(last_vert, self.friendships)
+
+                friend_paths = []
+
+                for i in range(len(friends)):
+                    friend_list = list(friends)
+
+                    friend_paths.append(current_path.copy())
+
+                    friend_paths[i].append(friend_list[i])
+                
+                for path in friend_paths:
+                    q.enqueue(path)
+
+
+
+
+
         return visited
 
 
 if __name__ == '__main__':
-    # sg = SocialGraph()
-    # sg.populate_graph(10, 2)
-    # print(sg.friendships)
-    # connections = sg.get_all_social_paths(1)
-    # print(connections)
-
-
     sg = SocialGraph()
+    sg.populate_graph(10, 2)
+    print(sg.friendships)
+    connections = sg.get_all_social_paths(1)
+    print('connections', connections)
 
-    sg.populate_graph(8, 3)
 
-    print('sg.friendships', sg.friendships)
+    # sg = SocialGraph()
+
+    # sg.populate_graph(6, 2)
+
+    # print('sg.friendships', sg.friendships)
