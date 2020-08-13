@@ -48,7 +48,7 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
-        for i in range(0, num_users):
+        for i in range(0, num_users): #would add 100 users
             self.add_user(f"user {i}")
 
         #generate all possible friendship combinations
@@ -134,3 +134,5 @@ if __name__ == '__main__':
     # sg.populate_graph(6, 2)
 
     # print('sg.friendships', sg.friendships)
+
+
